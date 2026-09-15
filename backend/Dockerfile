@@ -8,7 +8,8 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # 4. Install global pnpm and dependencies
-RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN npm install -g pnpm
+
 
 # 5. Copy rest of backend code
 COPY . .
