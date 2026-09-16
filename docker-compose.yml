@@ -1,0 +1,46 @@
+services:
+  # 1. MongoDB Local Database Service
+  mongodb:
+    image: mongo:8.0.4
+    container_name: schemacraft_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # 2. Backend Express Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: schemacraft_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://mongodb:27017/schemacraft
+    depends_on:
+      - mongodb
+
+  # 3. Frontend Vite Service (Development Mode)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: schemacraft_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
