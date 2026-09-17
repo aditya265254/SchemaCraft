@@ -14,11 +14,8 @@ RUN npm install -g pnpm
 # 5. Copy rest of backend code
 COPY . .
 
-# 6. Build the project (if you have a build script)
-RUN pnpm run build
-
 # 7. Expose the port
 EXPOSE 3000
 
 # 8. Run the backend (For Production)
-CMD ["pnpm", "run", "start"]
+CMD ["pnpm", "run", "dev"]
